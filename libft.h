@@ -6,7 +6,7 @@
 /*   By: kypark <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 19:40:19 by kypark            #+#    #+#             */
-/*   Updated: 2020/10/31 17:29:34 by kypark           ###   ########.fr       */
+/*   Updated: 2020/11/02 16:11:18 by kypark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,7 @@ int			ft_tolower(int c);
 void		*ft_calloc(size_t count, size_t size);
 char		*ft_strdup(const char *s1);
 int			ft_atoi(const char *str);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char		*ft_substr(char const *s, unsigned int start, size_t len);
+char		*ft_strjoin(char const *s1, char const *s2);
+char		*ft_strtrim(char const *s1, char const *set);
 #endif
