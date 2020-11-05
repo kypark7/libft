@@ -25,21 +25,26 @@ int				ft_getrow(char const *s, char c)
 			n++;
 		i++;
 	}
-	return (n + 1);
+	return (n);
 }
 
 char			**ft_split(char const *s, char c)
 {
 	char		**new_s;
-	int			len;
+	size_t		len;
 
 	len = ft_getrow(s, c);
-	if (!(new_s = malloc(sizeof(char *) * (1))))
+	if (!c)
 		return (NULL);
-	if (!(new_s[0] = malloc(sizeof(char) * (3))))
+	if (!(new_s = (char **)malloc(sizeof(char *) * (len + 1))))
 		return (NULL);
-	new_s[0][0] = 'a';
-	new_s[0][1] = 'b';
-	new_s[0][2] = 'c';
+	while(len)
+	{
+		if (!(new_s[len] = malloc(sizeof(char) * (3))))
+			return (NULL);	
+		len--;
+	}
+	if (len == ft_strlen(s))
+		free(new_s);
 	return (new_s);
 }
