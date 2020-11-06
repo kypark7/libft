@@ -12,10 +12,23 @@
 
 #include "libft.h"
 
-void	ft_putnbr_fd(int n, int fd)
+void			ft_putnbr_fd(int n, int fd)
 {
-	char *s;
+	long int	number;
+	char		c;
 
-	s = ft_itoa(n);
-	ft_putstr_fd(s, fd);
+	c = '0';
+	number = n;
+	if (number < 0)
+	{
+		number = number * -1;
+		write(fd, "-", 1);
+	}
+	if (number > 9)
+	{
+		ft_putnbr_fd(number / 10, fd);
+		ft_putchar_fd((number % 10) + c, fd);
+	}
+	else
+		ft_putchar_fd(number + c, fd);
 }

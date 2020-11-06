@@ -12,39 +12,109 @@
 
 #include "libft.h"
 
-int				ft_getrow(char const *s, char c)
+static int	ft_numofline(char const *s, char c, size_t lens)
 {
-	int			i;
-	int			n;
+	int		numl;
+	size_t	i;
 
+	numl = 0;
 	i = 0;
-	n = 0;
-	while (s[i])
+	while (i <= lens)
 	{
-		if (s[i] == c)
-			n++;
+		if (s[i] != c && s[i] != '\0')
+		{
+			while (s[i] != c && s[i] != '\0')
+				i++;
+			numl++;
+			continue ;
+		}
 		i++;
 	}
-	return (n);
+	return (numl);
 }
 
-char			**ft_split(char const *s, char c)
+static char	**ft_makestr(char **str, char const *s, char c, size_t lens)
 {
-	char		**new_s;
-	size_t		len;
+	int		j;
+	int		k;
+	size_t	i;
 
-	len = ft_getrow(s, c);
-	if (!c)
-		return (NULL);
-	if (!(new_s = (char **)malloc(sizeof(char *) * (len + 1))))
-		return (NULL);
-	while(len)
+	i = 0;
+	j = 0;
+	k = 0;
+	while (i <= lens)
 	{
-		if (!(new_s[len] = malloc(sizeof(char) * (3))))
-			return (NULL);	
-		len--;
+		j = 0;
+		if (s[i] != c && s[i] != '\0')
+		{
+			while (s[i] != c && s[i] != '\0')
+			{
+				str[k][j] = s[i];
+				j++;
+				i++;
+			}
+			str[k][j] = '\0';
+			k++;
+			continue ;
+		}
+		i++;
 	}
-	if (len == ft_strlen(s))
-		free(new_s);
-	return (new_s);
+	return (str);
+}
+
+static char	**ft_free(char **str, int k)
+{
+	int	i;
+
+	i = 0;
+	while (i <= k)
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+	return (NULL);
+}
+
+static void	ft_numofch(char const *s, char **str, size_t lens, char c)
+{
+	int		j;
+	int		k;
+	size_t	i;
+
+	i = 0;
+	k = 0;
+	while (i <= lens)
+	{
+		j = 0;
+		if (s[i] != c && s[i] != '\0')
+		{
+			while (s[i] != c && s[i] != '\0')
+			{
+				i++;
+				j++;
+			}
+			if (!(str[k] = (char *)malloc((j + 1) * sizeof(char))))
+				str = ft_free(str, k);
+			k++;
+		}
+		i++;
+	}
+	str[k] = 0;
+}
+
+char		**ft_split(char const *s, char c)
+{
+	char	**str;
+	int		numl;
+	size_t	lens;
+
+	if (!s)
+		return (NULL);
+	lens = ft_strlen(s);
+	numl = ft_numofline(s, c, lens);
+	if (!(str = (char **)malloc((numl + 1) * sizeof(char *))))
+		return (NULL);
+	ft_numofch(s, str, lens, c);
+	return (ft_makestr(str, s, c, lens));
 }
